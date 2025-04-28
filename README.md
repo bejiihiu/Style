@@ -1,116 +1,65 @@
-# Snap!
+# Style! 🎮
 
-This is the Seriously Necessary Adapter Plugin to enable plugins written against the
- BungeeCord or Waterfall API to load and (kinda) run on [Velocity](https://velocitypowered.com/). 👀
+Это **форк** плагина **Snap**, созданный для того, чтобы превратить ваш сервер в настоящую мощь! Теперь вы можете загружать и запускать плагины для **BungeeCord** или **Waterfall** прямо на **Velocity**. Это не просто плагин, это **стиль**! 🔥
 
-## How?
+## Как это работает? 🤔
 
-Simply add the Bungee plugins into the plugins folder inside the Snap plugin folder.
+Просто бросьте ваши Bungee плагины в папку `plugins`, которая находится внутри папки плагина **Style**. Всё, готово. 🔥
 
-Snap will use it's own instance of BungeeCord's plugin manager to load the plugins 
- from there and translate BungeeCord methods, classes as well as event calls to the 
- respective Velocity ones and vice versa.
+**Style** использует свой собственный менеджер плагинов BungeeCord, чтобы загружать плагины и «переводить» все методы, классы и события из Bungee в Velocity и обратно. Работает, как часы, но с этим добавляется немного **стиля**. 🌟
 
-## Why?
+## Зачем это нужно? 🏆
 
-Originally I wanted to document the Velocity equivalents to Bungee events, methods
- and classes. This evolved into the idea of writing a converter for source code which
- led me to decide to try to make a plugin which can directly load Bungee plugins.
- 
-Seeing as the proxies don't have too much logic that seems to have worked although
- it is definitely a lot more inefficient than just running native Velocity plugins 
- due lots of classes being in need of getting translated on the fly.
- 
-Technically this could be made in a way that is a lot more efficient by directly 
- modifying the Velocity or BungeeCord source code to extend the respective other
- classes but in practice that massively increases the work required to get this
- plugin running, and that's all I wanted to do for now.
- 
-## What works?
+Изначально я просто хотел собрать документацию для событий и методов Bungee на Velocity, но всё как-то не срослось. Идея начала развиваться, и в итоге появился этот плагин — прямой путь к тому, чтобы загрузить Bungee плагины, и сразу работать с ними на **Velocity**.
 
-Most of it (hopefully). I mean that's the goal... make sure to report any issues!
+**Style** — это не просто решение, это стиль жизни. Сложности с производительностью? Ну, немного есть, но зачем вам это, если можно просто добавить немного **гламура** в работу вашего сервера? 💅
 
-## What doesn't work?
+## Что работает? 🎉
 
-Some functionality isn't easily recreated (e.g. group handling is not a
- thing in Velocity, use [a permissions plugin](https://luckperms.net)) and of course
- anything related to hacking into Bungee-internals or packets wont work.
- Just write a Velocity plugin at that point...
+БОЛЬШАЯ часть всего. Надеюсь, да. Обязательно тестируйте и сообщайте об ошибках — это поможет сделать плагин ещё более **великолепным**! 👑
 
-Those functions not supported will throw an UnsupportedOperationException. Please report
- those including the plugin causing them on the issue tracker!
- 
-If you are sure that the plugin will work fine otherwise then you can have it return
- default values by setting `throw-unsupported-exception` to `false` in the `snap.conf`!
+## Что не работает? ❌
 
-### Not supported:
+Некоторые вещи просто не получить на Velocity так же, как на Bungee. Например:
 
-- Using Bungee's **inbuilt permissions system** to set and get groups/permissions. 
-  Don't! Please use LuckPerms on Velocity. (hasPermission checks work though)
-- **Reconnect server functionality.** That's an inbuilt function in Bungee but better 
-  suited for a plugin. The related methods will return `null` or set nothing. Instead
-  of erroring.
-- **Scoreboards.** Velocity doesn't have API for them and I'm not going to create a 
-  packet based one. Maybe there will be a way to integrate in some plugin or Velocity 
-  adds support in the future.
-- Some **ProxyConfig** settings don't exist on Velocity or aren't exposed in the API so 
-  they return some sensible defaults which should reflect the proxy's state.
-- Registering commands after a plugin was enabled. I currently have no good way to hook
-  into this besides straight up modifying the PluginManager class which I would like to
-  avoid.
-- Velocity plugins and Bungee plugins are not available to each other via the respective
-  PluginManager APIs and as dependencies. Their classes should be accessible though.
-- Some connection handling and related events might not work 100% exactly like on 
-  Bungee. They are as close as possible though but if you already have to fiddle with 
-  that then its best to create a standalone Velocity plugin tbh.
-- Some events don't work 100% or not at all.  
-  Not working: `TabCompleteEvent`, `ProxyDefineCommandEvent`, `ProxyExceptionEvent`.  
-  Only partially: `ServerDisconnectEvent` (only triggers on kicks),
-  `ClientConnectEvent` (uses Velocity's `LoginEvent` with `PostOrder.FIRST`)
-  `ConnectionInitEvent` (uses Velocity's `LoginEvent` with `PostOrder.EARLY`)
-- **Unsafe** doesn't work.
+- Группировка прав? В **Velocity** для этого нужен плагин прав (LuckPerms, например).
+- Разные магические фишки из внутренностей Bungee, пакеты и тому подобное — этого не будет. Если вам это нужно, проще написать свой плагин для **Velocity**.
+- Но это не беда, просто бросьте сюда свой плагин, и я сделаю, чтобы он работал без сучка и задоринки! 😏
 
-## Sounds awesome! How can I get it?
+Если что-то не поддерживается, плагин просто **покажет ошибку** с исключением `UnsupportedOperationException`. Не забудьте сообщить, какой плагин вызывает ошибку, чтобы мы все исправили. 😉
 
-You can download the jar via [GitHub releases](https://github.com/Phoenix616/Snap/releases)
- or get builds from the latest commits from the [Minebench.de Jenkins](https://ci.minebench.de/job/Snap/).
- 
-## How can I support the project?
+## Не поддерживается: 🚫
 
-For the start trying out the plugin and reporting what other plugins work and don't work
- would already help a ton figuring out what work is still needed.
- 
-Of course I would also appreciate [monetary help](https://tip.phoenix616.dev) if the plugin
- has helped you transition to Velocity either by directly using it or referencing its code to 
- adapt Bungee plugins to get running on Velocity natively. (Did you know that GitHub is still 
- doubling donations to [my GitHub Sponsors page](https://ghsponsor.phoenix616.dev)? 😉)
+- Встроенная система прав Bungee? Не нужен. Используйте **LuckPerms** для Velocity — так проще.
+- Повторное подключение к серверу? Лучше использовать отдельный плагин для этого, мы на Velocity играем по-другому.
+- Таблицы очков. **Velocity** не поддерживает API для этого, но кто знает, может быть в будущем что-то изменится.
+- Некоторые параметры **ProxyConfig** могут не работать так, как в Bungee. Это нормально, настройки по умолчанию всё равно сделают свою работу.
+- Регистрация команд после того, как плагин уже активирован — это настоящая головная боль. И я пока не хочу ковыряться в `PluginManager`, честно.
+- **Velocity** и **Bungee** плагины не могут работать через свои родные API как зависимости. Но классы всё равно будут доступны друг для друга.
 
-## Is it open source?
+## Звучит круто! Как мне это получить? 🔥
 
-Yes, the base code of Snap is open source! Unless noted otherwise in the source it's licensed 
- under LGPLv3 in order to be compatible with the shipped Waterfall/BungeeCord.
+Загрузите `.jar` файл через **релизы** на **GitHub** или получите свежие сборки с **Jenkins Minebench.de**. 
 
-```
- Snap
- Copyright (c) 2020 Max Lee aka Phoenix616 (max@themoep.de)
+Дайте знать, если хотите видеть что-то ещё или если нашли баг — я всегда в поиске **совершенства**! 😎
 
- This program is free software: you can redistribute it and/or
- modify it under the terms of the GNU Lesser General Public
- License as published by the Free Software Foundation, either
- version 3 of the License, or (at your option) any later version.
+## Как я могу поддержать проект? 💸
 
- This program is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU Lesser General Public License for more details.
+Попробуйте плагин, потестируйте, сообщите, что работает, а что нет. Ваша помощь просто **неоценима** в поиске багов и улучшений! 🚀
 
- You should have received a copy of the GNU Lesser General Public
- License along with this program.  If not, see <http://www.gnu.org/licenses/>.
-```
+Если плагин действительно оказался полезным, можете поддержать проект. Кстати, **GitHub** до сих пор удваивает пожертвования на мою страницу **GitHub Sponsors**. 😉💰
 
-Please note that BungeeCord is not Free Software and licensed under their own, BSD 3-Clause based
- [license](https://github.com/SpigotMC/BungeeCord/blob/master/LICENSE) (which forbids usage of BungeeCord "for commercial software hosting services without
-written permission from the author") and that Waterfall uses
- an [MIT License](https://github.com/PaperMC/Waterfall/blob/master/LICENSE.txt) for its patches.
+## Это открытый исходный код? 🚀
 
-Therefore pre-built binaries of Snap would have to be  distributed under Bungee's modified BSD 3-Clause license or a compatible one.
+Да, код **Style** — это **открытый исходник**! Лицензирован под **LGPLv3**, чтобы быть совместимым с **BungeeCord** и **Waterfall**. Так что если захочешь подкрутить, добавляй свои улучшения и делись с миром!
+
+**Style**  
+Copyright (c) 2025 Tamerlan (bejiihiu) (wilemcnetwork@gmail.com)
+
+Этот проект — **свободное ПО**! Вы можете распространять и/или изменять его в соответствии с условиями **GNU Lesser General Public License**, опубликованной **Free Software Foundation**, версии 3 или (по вашему выбору) любой более поздней версии.
+
+Дистрибуция плагина сопровождается **без всякой гарантии**. 
+
+И помните, что **BungeeCord** — это не свободное ПО, а лицензировано по BSD 3-Clause, что запрещает использование **BungeeCord** для коммерческих хостинг-услуг без письменного разрешения от авторов.
+
+**Но в Style всё красиво и с изюминкой!** ✨
